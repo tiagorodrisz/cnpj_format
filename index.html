@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formatador de CNPJ e CPF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Formatador de CNPJ e CPF</h1>
+        <label for="input">Digite o CNPJ ou CPF:</label>
+        <input type="text" id="input" placeholder="Digite aqui">
+        <button id="formatBtn">Formatar</button>
+        <button id="unformatBtn">Remover Formatação</button>
+        <button id="copyBtn">Copiar</button>
+        <p id="output"></p>
+    </div>
+    <script>
+        document.getElementById('formatBtn').addEventListener('click', format);
+        document.getElementById('unformatBtn').addEventListener('click', unformat);
+        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+
+        function format() {
+            const input = document.getElementById('input').value;
+            let formatted = input;
+
+            if (input.length === 11) { // CPF
+                formatted = input.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (input.length === 14) { // CNPJ
+                formatted = input.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+            }
+
+            document.getElementById('output').innerText = formatted;
+        }
+
+        function unformat() {
+            const input = document.getElementById('input').value;
+            const unformatted = input.replace(/[.\-/]/g, '');
+            document.getElementById('output').innerText = unformatted;
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output').innerText;
+            navigator.clipboard.writeText(output).then(() => {}).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
