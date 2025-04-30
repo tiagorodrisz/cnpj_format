@@ -7,78 +7,77 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #e0f7fa;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
+            margin: 0;
         }
-
         .container {
-            text-align: center;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-
-        input {
+        input, button {
             margin: 10px 0;
             padding: 10px;
-            width: 200px;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #ccc;
+           5px;
         }
-
         button {
-            margin: 5px;
-            padding: 10px 20px;
+            background-color: #00796b;
+            color: #ffffff;
             cursor: pointer;
+            border: none;
         }
-
-        p {
+        button:hover {
+            background-color: #004d40;
+        }
+        #result {
             margin-top: 20px;
-            font-size: 1.2em;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00796b;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Formatador de CNPJ e CPF</h1>
-        <label for="input">Digite o CNPJ ou CPF:</label>
-        <input type="text" id="input" placeholder="Digite aqui">
-        <button id="formatBtn">Formatar</button>
-        <button id="unformatBtn">Remover Formatação</button>
-        <button id="copyBtn">Copiar</button>
-        <p id="output"></p>
+        <label for="number">Digite o número:</label>
+        <input type="text" id="number" placeholder="Digite o CNPJ ou CPF">
+        <button onclick="formatNumber()">Formatar</button>
+        <button onclick="removeFormat()">Remover Formatação</button>
+        <button onclick="copyToClipboard()">Copiar para Área de Transferência</button>
+        <p id="result"></p>
     </div>
+
     <script>
-        document.getElementById('formatBtn').addEventListener('click', format);
-        document.getElementById('unformatBtn').addEventListener('click', unformat);
-        document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
-
-        function format() {
-            const input = document.getElementById('input').value;
-            let formatted = input;
-
-            if (input.length === 11) { // CPF
-                formatted = input.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
-            } else if (input.length === 14) { // CNPJ
-                formatted = input.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+        function formatNumber() {
+            let number = document.getElementById('number').value;
+            let formattedNumber = number.replace(/\D/g, '');
+            if (formattedNumber.length === 11) {
+                formattedNumber = formattedNumber.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            } else if (formattedNumber.length === 14) {
+                formattedNumber = formattedNumber.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
             }
-
-            document.getElementById('output').innerText = formatted;
+            document.getElementById('result').innerText = formattedNumber;
         }
 
-        function unformat() {
-            const input = document.getElementById('input').value;
-            const unformatted = input.replace(/[.\-/]/g, '');
-            document.getElementById('output').innerText = unformatted;
+        function removeFormat() {
+            let number = document.getElementById('number').value;
+            let unformattedNumber = number.replace(/\D/g, '');
+            document.getElementById('result').innerText = unformattedNumber;
         }
 
         function copyToClipboard() {
-            const output = document.getElementById('output').innerText;
-            navigator.clipboard.writeText(output).then(() => {}).catch(err => {
-                console.error('Erro ao copiar texto: ', err);
-            });
+            let result = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(result);
         }
     </script>
 </body>
