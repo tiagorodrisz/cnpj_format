@@ -5,29 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formatador de CNPJ e CPF</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e0f7fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-        input, button {
-            margin: 10px 0;
+        body10px 0;
             padding: 10px;
             font-size: 16px;
             width: 100%;
             border: 1px solid #ccc;
-           5px;
+            border-radius: 5px;
         }
         button {
             background-color: #00796b;
@@ -77,7 +60,13 @@
 
         function copyToClipboard() {
             let result = document.getElementById('result').innerText;
-            navigator.clipboard.writeText(result);
+            let tempInput = document.createElement('input');
+            tempInput.value = result;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Número copiado para a área de transferência!');
         }
     </script>
 </body>
